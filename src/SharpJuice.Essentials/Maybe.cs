@@ -38,18 +38,14 @@ namespace SharpJuice.Essentials
 
         public void Bind(Action<T> action)
         {
-            if (_enumerator.HasItem)
-            {
-                action(_enumerator.Item);
-            }
+            if (_enumerator.HasItem) action(_enumerator.Item);
         }
 
-        public async Task Bind(Func<T, Task> binder)
+        public Task Bind(Func<T, Task> binder)
         {
-            if (_enumerator.HasItem)
-            {
-                await binder(_enumerator.Item);
-            }
+            return _enumerator.HasItem
+                ? binder(_enumerator.Item)
+                : Task.CompletedTask;
         }
 
         public Maybe<TResult> Bind<TResult>(Func<T, TResult> binder)
@@ -73,21 +69,18 @@ namespace SharpJuice.Essentials
                 : new Maybe<TResult>();
         }
 
-        public async Task<Maybe<TResult>> Bind<TResult>(Func<T, Task<Maybe<TResult>>> binder)
+        public Task<Maybe<TResult>> Bind<TResult>(Func<T, Task<Maybe<TResult>>> binder)
         {
             return _enumerator.HasItem
-                ? await binder(_enumerator.Item)
-                : new Maybe<TResult>();
+                ? binder(_enumerator.Item)
+                : Task.FromResult(new Maybe<TResult>());
         }
 
-        public Maybe<T> IfEmpty(Func<Maybe<T>> func)
-        {
-            return !_enumerator.HasItem ? func() : this;
-        }
+        public Maybe<T> IfEmpty(Func<Maybe<T>> func) => !_enumerator.HasItem ? func() : this;
 
-        public async Task<Maybe<T>> IfEmpty(Func<Task<Maybe<T>>> func)
+        public Task<Maybe<T>> IfEmpty(Func<Task<Maybe<T>>> func)
         {
-            return !_enumerator.HasItem ? await func() : this;
+            return !_enumerator.HasItem ? func() : Task.FromResult(this);
         }
 
         public bool Any() => _enumerator.HasItem;
@@ -100,8 +93,10 @@ namespace SharpJuice.Essentials
             throw new InvalidOperationException("Maybe has no item");
         }
 
-        public T DefaultIfEmpty(T defaultValue = default(T)) =>
-            _enumerator.HasItem ? _enumerator.Item : defaultValue;
+        public T DefaultIfEmpty(T defaultValue = default(T))
+        {
+            return _enumerator.HasItem ? _enumerator.Item : defaultValue;
+        }
 
         public bool Equals(Maybe<T> other)
         {
@@ -113,15 +108,9 @@ namespace SharpJuice.Essentials
 
         public bool Equals(T other) => _enumerator.HasItem && _enumerator.Item.Equals(other);
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _enumerator;
-        }
+        public IEnumerator<T> GetEnumerator() => _enumerator;
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _enumerator;
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _enumerator;
 
         private struct Enumerator : IEnumerator<T>
         {
@@ -155,10 +144,7 @@ namespace SharpJuice.Essentials
                 return true;
             }
 
-            void IEnumerator.Reset()
-            {
-                _moved = false;
-            }
+            void IEnumerator.Reset() => _moved = false;
         }
     }
 }
