@@ -78,9 +78,16 @@ namespace SharpJuice.Essentials
 
         public Maybe<T> IfEmpty(Func<Maybe<T>> func) => !_enumerator.HasItem ? func() : this;
 
+        public Maybe<T> IfEmpty(Func<T> func) => !_enumerator.HasItem ? new Maybe<T>(func()) : this;
+
         public Task<Maybe<T>> IfEmpty(Func<Task<Maybe<T>>> func)
         {
             return !_enumerator.HasItem ? func() : Task.FromResult(this);
+        }
+
+        public async Task<Maybe<T>> IfEmpty(Func<Task<T>> func)
+        {
+            return !_enumerator.HasItem ? new Maybe<T>(await func()) : this;
         }
 
         public bool Any() => _enumerator.HasItem;

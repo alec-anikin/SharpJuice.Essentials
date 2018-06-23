@@ -6,7 +6,7 @@ namespace SharpJuice.Essentials
     {
         public static Maybe<TValue> GetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.TryGetValue(key, out TValue value) 
+            return dictionary.TryGetValue(key, out var value) 
                 ? value.ToMaybe() 
                 : new Maybe<TValue>();
         }
