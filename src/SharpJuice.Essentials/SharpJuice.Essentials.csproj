@@ -6,6 +6,7 @@
     <Authors>Alec Anikin</Authors>
     <Product>SharpJuice</Product>
     <Version>1.1.0</Version>
+    <PackageVersion>1.1.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
