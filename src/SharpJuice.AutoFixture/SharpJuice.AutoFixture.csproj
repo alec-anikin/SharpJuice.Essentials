@@ -6,6 +6,7 @@
     <Description>Overriding constructor parameters for AutoFixture</Description>
     <Authors>Alec Anikin</Authors>
     <Product>SharpJuice</Product>
+    <PackageVersion>1.0.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
