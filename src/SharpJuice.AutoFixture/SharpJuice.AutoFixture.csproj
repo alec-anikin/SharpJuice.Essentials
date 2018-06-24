@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Overriding constructor parameters for AutoFixture</Description>
+    <Authors>Alec Anikin</Authors>
+    <Product>SharpJuice</Product>
   </PropertyGroup>
 
   <ItemGroup>
