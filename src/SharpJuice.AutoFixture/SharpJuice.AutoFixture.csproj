@@ -7,6 +7,9 @@
     <Authors>Alec Anikin</Authors>
     <Product>SharpJuice</Product>
     <PackageVersion>1.0.0</PackageVersion>
+    <PackageProjectUrl>https://github.com/alec-anikin/SharpJuice/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/alec-anikin/SharpJuice/</RepositoryUrl>
+    <PackageTags>autofixture;extensions;sharpjuice</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
