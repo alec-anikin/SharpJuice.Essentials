@@ -76,18 +76,23 @@ namespace SharpJuice.Essentials
                 : Task.FromResult(new Maybe<TResult>());
         }
 
-        public Maybe<T> IfEmpty(Func<Maybe<T>> func) => !_enumerator.HasItem ? func() : this;
+        public Maybe<T> OrElse(Func<Maybe<T>> func) => !_enumerator.HasItem ? func() : this;
 
-        public Maybe<T> IfEmpty(Func<T> func) => !_enumerator.HasItem ? new Maybe<T>(func()) : this;
+        public T OrElse(Func<T> func) => _enumerator.HasItem ? _enumerator.Item : func();
 
-        public Task<Maybe<T>> IfEmpty(Func<Task<Maybe<T>>> func)
+        public Task<Maybe<T>> OrElse(Func<Task<Maybe<T>>> func)
         {
             return !_enumerator.HasItem ? func() : Task.FromResult(this);
         }
 
-        public async Task<Maybe<T>> IfEmpty(Func<Task<T>> func)
+        public Task<T> OrElse(Func<Task<T>> func)
         {
-            return !_enumerator.HasItem ? new Maybe<T>(await func()) : this;
+            return _enumerator.HasItem ? Task.FromResult(_enumerator.Item) : func();
+        }
+
+        public T OrElse(T defaultValue = default(T))
+        {
+            return _enumerator.HasItem ? _enumerator.Item : defaultValue;
         }
 
         public bool Any() => _enumerator.HasItem;
@@ -99,12 +104,7 @@ namespace SharpJuice.Essentials
 
             throw new InvalidOperationException("Maybe has no item");
         }
-
-        public T SingleOrDefault(T defaultValue = default(T))
-        {
-            return _enumerator.HasItem ? _enumerator.Item : defaultValue;
-        }
-
+        
         public bool Equals(Maybe<T> other)
         {
             if (_enumerator.HasItem != other._enumerator.HasItem)

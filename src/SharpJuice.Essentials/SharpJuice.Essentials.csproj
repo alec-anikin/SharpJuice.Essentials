@@ -5,12 +5,17 @@
     <Description>C# Maybe monad</Description>
     <Authors>Alec Anikin</Authors>
     <Product>SharpJuice</Product>
-    <Version>1.2.1</Version>
-    <PackageVersion>1.2.1</PackageVersion>
+    <Version>1.2.2</Version>
+    <PackageVersion>1.2.2</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/alec-anikin/SharpJuice/</PackageProjectUrl>
     <PackageTags>maybe;monad;sharpjuice</PackageTags>
     <RepositoryUrl>https://github.com/alec-anikin/SharpJuice/</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
 
 </Project>

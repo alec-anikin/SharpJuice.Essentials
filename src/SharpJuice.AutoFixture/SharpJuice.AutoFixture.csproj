@@ -12,6 +12,11 @@
     <PackageTags>autofixture;extensions;sharpjuice</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.4.0" />
   </ItemGroup>
