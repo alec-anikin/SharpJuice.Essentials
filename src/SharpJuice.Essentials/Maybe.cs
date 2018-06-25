@@ -100,7 +100,7 @@ namespace SharpJuice.Essentials
             throw new InvalidOperationException("Maybe has no item");
         }
 
-        public T DefaultIfEmpty(T defaultValue = default(T))
+        public T SingleOrDefault(T defaultValue = default(T))
         {
             return _enumerator.HasItem ? _enumerator.Item : defaultValue;
         }
