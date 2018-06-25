@@ -1,18 +1,23 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit;
 
 namespace SharpJuice.Essentials.Tests
 {
-    public class MaybeCreatingTests
+    public sealed class MaybeCreatingTests
     {
-        [Theory]
-        [InlineData(default(int))]
-        [InlineData(default(object))]
-        public void CreatingEmpty_IsEmptyEnumerable<T>(T stub)
+        [Fact]
+        public void CreatingEmptyRef_EnumerableIsEmpty()
         {
-            var mb = new Maybe<T>();
-           
+            var mb = new Maybe<object>();
+
+            mb.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void CreatingEmptyStruct_EnumerableIsEmpty()
+        {
+            var mb = new Maybe<int>();
+
             mb.Should().BeEmpty();
         }
 
@@ -60,10 +65,5 @@ namespace SharpJuice.Essentials.Tests
 
             mb.Should().NotBeEmpty().And.HaveCount(1).And.Contain(value);
         }
-
-        
-
-        
-
-     }
+    }
 }

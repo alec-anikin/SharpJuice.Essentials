@@ -115,6 +115,8 @@ namespace SharpJuice.Essentials
 
         public bool Equals(T other) => _enumerator.HasItem && _enumerator.Item.Equals(other);
 
+        public static implicit operator Maybe<T>(T value)  => new Maybe<T>(value);
+
         public IEnumerator<T> GetEnumerator() => _enumerator;
 
         IEnumerator IEnumerable.GetEnumerator() => _enumerator;

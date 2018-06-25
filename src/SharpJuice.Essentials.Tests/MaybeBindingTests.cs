@@ -32,7 +32,7 @@ namespace SharpJuice.Essentials.Tests
             var mb = new Maybe<T>(value);
             int calls = 0;
 
-            Func<T,Task> action = s =>
+            Func<T, Task> action = s =>
             {
                 ++calls;
                 return Task.CompletedTask;
@@ -53,7 +53,7 @@ namespace SharpJuice.Essentials.Tests
             int calls = 0;
 
             Func<T, int> binder = s => ++calls;
-            
+
             mb.Bind(binder);
 
             calls.Should().Be(callsCount);
@@ -73,7 +73,7 @@ namespace SharpJuice.Essentials.Tests
                 ++calls;
                 return Task.FromResult(4);
             };
-            
+
             await mb.Bind(binder);
 
             calls.Should().Be(callsCount);
@@ -131,7 +131,7 @@ namespace SharpJuice.Essentials.Tests
         {
             var mb = new Maybe<T>(value);
 
-            var result = mb.Bind(i => (string)null);
+            var result = mb.Bind(i => (string) null);
 
             result.Should().BeEmpty();
         }
