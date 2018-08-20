@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/alec-anikin/SharpJuice/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/alec-anikin/SharpJuice/</RepositoryUrl>
     <PackageTags>autofixture;extensions;sharpjuice</PackageTags>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

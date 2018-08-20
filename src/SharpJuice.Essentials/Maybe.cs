@@ -11,7 +11,7 @@ namespace SharpJuice.Essentials
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public struct Maybe<T> :
+    public readonly struct Maybe<T> :
         IEnumerable<T>,
         ISerializable,
         IEquatable<Maybe<T>>,
@@ -104,7 +104,7 @@ namespace SharpJuice.Essentials
 
             throw new InvalidOperationException("Maybe has no item");
         }
-        
+
         public bool Equals(Maybe<T> other)
         {
             if (_enumerator.HasItem != other._enumerator.HasItem)
@@ -115,7 +115,7 @@ namespace SharpJuice.Essentials
 
         public bool Equals(T other) => _enumerator.HasItem && _enumerator.Item.Equals(other);
 
-        public static implicit operator Maybe<T>(T value)  => new Maybe<T>(value);
+        public static implicit operator Maybe<T>(T value) => new Maybe<T>(value);
 
         public IEnumerator<T> GetEnumerator() => _enumerator;
 
@@ -134,7 +134,7 @@ namespace SharpJuice.Essentials
                 _moved = false;
             }
 
-            public T Current => Item;
+            public T Current => _moved ? Item : throw new InvalidOperationException("Enumerator is not advanced");
 
             object IEnumerator.Current => Current;
 
@@ -145,9 +145,7 @@ namespace SharpJuice.Essentials
             public bool MoveNext()
             {
                 if (!HasItem || _moved)
-                {
                     return false;
-                }
 
                 _moved = true;
                 return true;
