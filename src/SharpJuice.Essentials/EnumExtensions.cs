@@ -7,7 +7,7 @@ namespace SharpJuice.Essentials
         public static Maybe<TEnum> ToEnum<TEnum>(this string value, bool ignoreCase = false) where TEnum : struct
         {
             return Enum.TryParse(value, out TEnum result)
-                ? result.ToMaybe()
+                ? result
                 : new Maybe<TEnum>();
         }
     }
