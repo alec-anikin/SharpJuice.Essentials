@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SharpJuice.Essentials
@@ -13,150 +12,118 @@ namespace SharpJuice.Essentials
     [Serializable]
     public readonly struct Maybe<T> :
         IEnumerable<T>,
-        ISerializable,
         IEquatable<Maybe<T>>,
         IEquatable<T>
     {
-        private readonly Enumerator _enumerator;
+        private readonly T _value;
+        private readonly bool _hasValue;
 
         public Maybe(T value)
         {
-            _enumerator = value == null
-                ? new Enumerator()
-                : new Enumerator(value);
-        }
-
-        private Maybe(SerializationInfo info, StreamingContext context)
-            : this((T) info.GetValue("Value", typeof(T)))
-        {
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Value", _enumerator.Item, typeof(T));
+            if (value != null)
+            {
+                _hasValue = true;
+                _value = value;
+            }
+            else
+            {
+                _hasValue = false;
+                _value = default;
+            }
         }
 
         public void Bind(Action<T> action)
         {
-            if (_enumerator.HasItem) action(_enumerator.Item);
+            if (_hasValue) action(_value);
         }
 
         public Task Bind(Func<T, Task> binder)
         {
-            return _enumerator.HasItem
-                ? binder(_enumerator.Item)
+            return _hasValue
+                ? binder(_value)
                 : Task.CompletedTask;
         }
 
         public Maybe<TResult> Bind<TResult>(Func<T, TResult> binder)
         {
-            return _enumerator.HasItem
-                ? new Maybe<TResult>(binder(_enumerator.Item))
+            return _hasValue
+                ? new Maybe<TResult>(binder(_value))
                 : new Maybe<TResult>();
         }
 
         public Maybe<TResult> Bind<TResult>(Func<T, Maybe<TResult>> binder)
         {
-            return _enumerator.HasItem
-                ? binder(_enumerator.Item)
+            return _hasValue
+                ? binder(_value)
                 : new Maybe<TResult>();
         }
 
         public async Task<Maybe<TResult>> Bind<TResult>(Func<T, Task<TResult>> binder)
         {
-            return _enumerator.HasItem
-                ? new Maybe<TResult>(await binder(_enumerator.Item))
+            return _hasValue
+                ? new Maybe<TResult>(await binder(_value))
                 : new Maybe<TResult>();
         }
 
         public Task<Maybe<TResult>> Bind<TResult>(Func<T, Task<Maybe<TResult>>> binder)
         {
-            return _enumerator.HasItem
-                ? binder(_enumerator.Item)
+            return _hasValue
+                ? binder(_value)
                 : Task.FromResult(new Maybe<TResult>());
         }
 
-        public Maybe<T> OrElse(Func<Maybe<T>> func) => !_enumerator.HasItem ? func() : this;
+        public Maybe<T> OrElse(Func<Maybe<T>> func) => !_hasValue ? func() : this;
 
-        public T OrElse(Func<T> func) => _enumerator.HasItem ? _enumerator.Item : func();
+        public T OrElse(Func<T> func) => _hasValue ? _value : func();
 
         public Task<Maybe<T>> OrElse(Func<Task<Maybe<T>>> func)
         {
-            return !_enumerator.HasItem ? func() : Task.FromResult(this);
+            return !_hasValue ? func() : Task.FromResult(this);
         }
 
         public Task<T> OrElse(Func<Task<T>> func)
         {
-            return _enumerator.HasItem ? Task.FromResult(_enumerator.Item) : func();
+            return _hasValue ? Task.FromResult(_value) : func();
         }
 
         public T OrElse(T value)
         {
-            return _enumerator.HasItem ? _enumerator.Item : value;
+            return _hasValue ? _value : value;
         }
 
         public T OrDefault()
         {
-            return _enumerator.HasItem ? _enumerator.Item : default;
+            return _hasValue ? _value : default;
         }
 
-        public bool Any() => _enumerator.HasItem;
+        public bool Any() => _hasValue;
 
         public T Single()
         {
-            if (_enumerator.HasItem)
-                return _enumerator.Item;
+            if (_hasValue)
+                return _value;
 
             throw new InvalidOperationException("Maybe has no item");
         }
 
         public bool Equals(Maybe<T> other)
         {
-            if (_enumerator.HasItem != other._enumerator.HasItem)
+            if (_hasValue != other._hasValue)
                 return false;
 
-            return !_enumerator.HasItem || _enumerator.Item.Equals(other._enumerator.Item);
+            return !_hasValue || _value.Equals(other._value);
         }
 
-        public bool Equals(T other) => _enumerator.HasItem && _enumerator.Item.Equals(other);
+        public bool Equals(T other) => _hasValue && _value.Equals(other);
 
         public static implicit operator Maybe<T>(T value) => new Maybe<T>(value);
 
-        public IEnumerator<T> GetEnumerator() => _enumerator;
-
-        IEnumerator IEnumerable.GetEnumerator() => _enumerator;
-
-        private struct Enumerator : IEnumerator<T>
+        public IEnumerator<T> GetEnumerator()
         {
-            public readonly T Item;
-            public readonly bool HasItem;
-            private bool _moved;
-
-            public Enumerator(T item)
-            {
-                Item = item;
-                HasItem = true;
-                _moved = false;
-            }
-
-            public T Current => _moved ? Item : throw new InvalidOperationException("Enumerator is not advanced");
-
-            object IEnumerator.Current => Current;
-
-            public void Dispose()
-            {
-            }
-
-            public bool MoveNext()
-            {
-                if (!HasItem || _moved)
-                    return false;
-
-                _moved = true;
-                return true;
-            }
-
-            void IEnumerator.Reset() => _moved = false;
+            if (_hasValue)
+                yield return _value;
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
