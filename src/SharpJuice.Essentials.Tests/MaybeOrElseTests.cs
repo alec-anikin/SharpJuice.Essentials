@@ -34,12 +34,21 @@ namespace SharpJuice.Essentials.Tests
         }
 
         [Fact]
-        public void ReplacingEmptyValue_ReturnsMaybeWithValue()
+        public void ReplacingEmptyValue_ReturnsValue()
         {
             var maybe = new Maybe<int>();
             var value = maybe.OrElse(() => 10);
 
             value.Should().Be(10);;
+        }
+
+        [Fact]
+        public void ReplacingEmptyValueWithDefault_ReturnsDefault()
+        {
+            var maybe = new Maybe<int>();
+            var value = maybe.OrDefault();
+
+            value.Should().Be(0);;
         }
 
         [Fact]

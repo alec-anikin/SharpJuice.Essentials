@@ -63,9 +63,14 @@ namespace SharpJuice.Essentials
             return await (await task).OrElse(func);
         }
 
-        public static async Task<T> OrElse<T>(this Task<Maybe<T>> task, T defaultValue = default(T))
+        public static async Task<T> OrElse<T>(this Task<Maybe<T>> task, T value)
         {
-            return (await task).OrElse(defaultValue);
+            return (await task).OrElse(value);
+        }
+
+        public static async Task<T> OrDefault<T>(this Task<Maybe<T>> task)
+        {
+            return (await task).OrDefault();
         }
 
         public static async Task<bool> Any<T>(this Task<Maybe<T>> task)

@@ -90,9 +90,14 @@ namespace SharpJuice.Essentials
             return _enumerator.HasItem ? Task.FromResult(_enumerator.Item) : func();
         }
 
-        public T OrElse(T defaultValue = default(T))
+        public T OrElse(T value)
         {
-            return _enumerator.HasItem ? _enumerator.Item : defaultValue;
+            return _enumerator.HasItem ? _enumerator.Item : value;
+        }
+
+        public T OrDefault()
+        {
+            return _enumerator.HasItem ? _enumerator.Item : default;
         }
 
         public bool Any() => _enumerator.HasItem;
