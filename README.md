@@ -59,7 +59,7 @@ User instance = user.OrDefault();
 ```
 
 #### Other Methods ####
-Maybe implements IEnumerable<T>, IEquatable<Maybe<T>>, IEquatable<T>
+Maybe implements ```IEnumerable<T>, IEquatable<Maybe<T>>, IEquatable<T>```
 
 ```csharp
 Maybe<User> maybe = ...
