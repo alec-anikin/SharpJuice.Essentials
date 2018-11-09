@@ -8,9 +8,9 @@
     <Version>2.0.0</Version>
     <PackageVersion>2.0.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/alec-anikin/SharpJuice/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/alec-anikin/SharpJuice.Essentials/</PackageProjectUrl>
     <PackageTags>maybe;monad;sharpjuice</PackageTags>
-    <RepositoryUrl>https://github.com/alec-anikin/SharpJuice/</RepositoryUrl>
+    <RepositoryUrl>https://github.com/alec-anikin/SharpJuice.Essentials/</RepositoryUrl>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
