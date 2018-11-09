@@ -50,14 +50,7 @@ namespace SharpJuice.Essentials
                 ? new Maybe<TResult>(binder(_value))
                 : new Maybe<TResult>();
         }
-
-        public Maybe<TResult> Bind<TResult>(Func<T, Maybe<TResult>> binder)
-        {
-            return _hasValue
-                ? binder(_value)
-                : new Maybe<TResult>();
-        }
-
+        
         public async Task<Maybe<TResult>> Bind<TResult>(Func<T, Task<TResult>> binder)
         {
             return _hasValue
@@ -65,22 +58,8 @@ namespace SharpJuice.Essentials
                 : new Maybe<TResult>();
         }
 
-        public Task<Maybe<TResult>> Bind<TResult>(Func<T, Task<Maybe<TResult>>> binder)
-        {
-            return _hasValue
-                ? binder(_value)
-                : Task.FromResult(new Maybe<TResult>());
-        }
-
-        public Maybe<T> OrElse(Func<Maybe<T>> func) => !_hasValue ? func() : this;
-
         public T OrElse(Func<T> func) => _hasValue ? _value : func();
-
-        public Task<Maybe<T>> OrElse(Func<Task<Maybe<T>>> func)
-        {
-            return !_hasValue ? func() : Task.FromResult(this);
-        }
-
+        
         public Task<T> OrElse(Func<Task<T>> func)
         {
             return _hasValue ? Task.FromResult(_value) : func();
@@ -117,6 +96,11 @@ namespace SharpJuice.Essentials
         public bool Equals(T other) => _hasValue && _value.Equals(other);
 
         public static implicit operator Maybe<T>(T value) => new Maybe<T>(value);
+
+        public static implicit operator Maybe<T>(Maybe<Maybe<T>> nested)
+        {
+            return nested._hasValue ? nested._value : new Maybe<T>();
+        }
 
         public IEnumerator<T> GetEnumerator()
         {

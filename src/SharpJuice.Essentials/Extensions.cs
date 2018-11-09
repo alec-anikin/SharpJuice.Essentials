@@ -1,4 +1,7 @@
-﻿namespace SharpJuice.Essentials
+﻿using System;
+using System.Threading.Tasks;
+
+namespace SharpJuice.Essentials
 {
     public static class Extensions
     {
@@ -28,6 +31,15 @@
         public static T? ToNullable<T>(this Maybe<T> maybe) where T : struct
         {
             return maybe.Any() ? maybe.Single() : default(T?);
+        }
+
+        public static Maybe<T> Flat<T>(this Maybe<Maybe<T>> nested) => nested;
+
+        public static Maybe<T> OrElse<T>(this Maybe<T> maybe, Func<Maybe<T>> func) => !maybe.Any() ? func() : maybe;
+
+        public static Task<Maybe<T>> OrElse<T>(this Maybe<T> maybe, Func<Task<Maybe<T>>> func)
+        {
+            return !maybe.Any() ? func() : Task.FromResult(maybe);
         }
     }
 }

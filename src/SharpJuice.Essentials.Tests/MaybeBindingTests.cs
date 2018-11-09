@@ -143,7 +143,7 @@ namespace SharpJuice.Essentials.Tests
         {
             var mb = new Maybe<T>(value);
 
-            var result = mb.Bind(i => i.GetType().ToMaybe());
+            var result = mb.Bind(i => i.GetType().ToMaybe()).Flat();
 
             result.Should().NotBeEmpty().And.ContainSingle(type => type == typeof(T));
         }
@@ -155,7 +155,7 @@ namespace SharpJuice.Essentials.Tests
         {
             var mb = new Maybe<T>(value);
 
-            var result = await mb.Bind(i => Task.FromResult(i.GetType().ToMaybe()));
+            var result = await mb.Bind(i => Task.FromResult(i.GetType().ToMaybe())).Flat();
 
             result.Should().NotBeEmpty().And.ContainSingle(type => type == typeof(T));
         }

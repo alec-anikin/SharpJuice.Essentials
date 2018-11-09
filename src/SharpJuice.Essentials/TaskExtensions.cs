@@ -24,38 +24,14 @@ namespace SharpJuice.Essentials
 
         public static async Task<Maybe<TResult>> Bind<T, TResult>(
             this Task<Maybe<T>> task,
-            Func<T, Maybe<TResult>> binder)
-        {
-            return (await task).Bind(binder);
-        }
-
-        public static async Task<Maybe<TResult>> Bind<T, TResult>(
-            this Task<Maybe<T>> task,
             Func<T, Task<TResult>> binder)
         {
             return await (await task).Bind(binder);
         }
 
-        public static async Task<Maybe<TResult>> Bind<T, TResult>(
-            this Task<Maybe<T>> task,
-            Func<T, Task<Maybe<TResult>>> binder)
-        {
-            return await (await task).Bind(binder);
-        }
-
-        public static async Task<Maybe<T>> OrElse<T>(this Task<Maybe<T>> task, Func<Maybe<T>> func)
-        {
-            return (await task).OrElse(func);
-        }
-
         public static async Task<T> OrElse<T>(this Task<Maybe<T>> task, Func<T> func)
         {
             return (await task).OrElse(func);
-        }
-
-        public static async Task<Maybe<T>> OrElse<T>(this Task<Maybe<T>> task, Func<Task<Maybe<T>>> func)
-        {
-            return await (await task).OrElse(func);
         }
 
         public static async Task<T> OrElse<T>(this Task<Maybe<T>> task, Func<Task<T>> func)
@@ -81,6 +57,11 @@ namespace SharpJuice.Essentials
         public static async Task<T> Single<T>(this Task<Maybe<T>> task)
         {
             return (await task).Single();
+        }
+
+        public static async Task<Maybe<T>> Flat<T>(this Task<Maybe<Maybe<T>>> task)
+        {
+            return await task;
         }
     }
 }
