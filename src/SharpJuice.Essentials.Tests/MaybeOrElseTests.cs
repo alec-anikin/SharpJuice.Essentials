@@ -86,5 +86,45 @@ namespace SharpJuice.Essentials.Tests
 
             value.Should().Be(10);
         }
+
+        [Fact]
+        public void ReplacingEmptyValueWithEmptyValue_ReturnsEmpty()
+        {
+            var a = new Maybe<int>();
+            var b = new Maybe<int>();
+            var value = a.OrElse(b);
+
+            value.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void ChoosingEmptyValueWithValue_ReturnsValue()
+        {
+            var a = new Maybe<int>();
+            var b = new Maybe<int>(10);
+            var value = a.OrElse(b);
+
+            value.Should().Contain(10);
+        }
+
+        [Fact]
+        public void ChoosingValueOrEmptyValue_ReturnsValue()
+        {
+            var a = new Maybe<int>(10);
+            var b = new Maybe<int>();
+            var value = a.OrElse(b);
+
+            value.Should().Contain(10);
+        }
+
+        [Fact]
+        public void ChoosingValue1OrValue2_ReturnsValue1()
+        {
+            var a = new Maybe<int>(10);
+            var b = new Maybe<int>(20);
+            var value = a.OrElse(b);
+
+            value.Should().Contain(10);
+        }
     }
 }

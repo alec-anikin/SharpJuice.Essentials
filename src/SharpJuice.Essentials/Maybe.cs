@@ -70,6 +70,11 @@ namespace SharpJuice.Essentials
             return _hasValue ? _value : value;
         }
 
+        public Maybe<T> OrElse(Maybe<T> value)
+        {
+            return _hasValue ? this : value;
+        }
+
         public T OrDefault()
         {
             return _hasValue ? _value : default;
