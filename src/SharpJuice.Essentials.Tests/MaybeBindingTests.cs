@@ -159,5 +159,28 @@ namespace SharpJuice.Essentials.Tests
 
             result.Should().NotBeEmpty().And.ContainSingle(type => type == typeof(T));
         }
+
+        [Fact]
+        public void TryingGetWithValue_ReturnsValue()
+        {
+            const int value = 25;
+            var mb = new Maybe<int>(value);
+
+            var result = mb.TryGet(out var resultValue);
+
+            result.Should().BeTrue();
+            resultValue.Should().Be(value);
+        }
+
+        [Fact]
+        public void TryingGetWithEmpty_ReturnsFalse()
+        {
+            var mb = new Maybe<int>();
+
+            var result = mb.TryGet(out var resultValue);
+
+            result.Should().BeFalse();
+            resultValue.Should().Be(default(int));
+        }
     }
 }

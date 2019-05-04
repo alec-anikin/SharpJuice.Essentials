@@ -50,7 +50,7 @@ namespace SharpJuice.Essentials
                 ? new Maybe<TResult>(binder(_value))
                 : new Maybe<TResult>();
         }
-        
+
         public async Task<Maybe<TResult>> Bind<TResult>(Func<T, Task<TResult>> binder)
         {
             return _hasValue
@@ -59,7 +59,7 @@ namespace SharpJuice.Essentials
         }
 
         public T OrElse(Func<T> func) => _hasValue ? _value : func();
-        
+
         public Task<T> OrElse(Func<Task<T>> func)
         {
             return _hasValue ? Task.FromResult(_value) : func();
@@ -88,6 +88,30 @@ namespace SharpJuice.Essentials
                 return _value;
 
             throw new InvalidOperationException("Maybe has no item");
+        }
+
+        public bool TryGet(out T value)
+        {
+            value = _value;
+            return _hasValue;
+        }
+
+        public void Match(Action<T> bind, Action orElse)
+        {
+            if (_hasValue)
+                bind(_value);
+            else
+                orElse();
+        }
+
+        public TResult Match<TResult>(Func<T, TResult> bind, Func<TResult> orElse)
+        {
+            return _hasValue ? bind(_value) : orElse();
+        }
+
+        public TResult Match<TResult>(Func<T, TResult> bind, TResult orElse = default)
+        {
+            return _hasValue ? bind(_value) : orElse;
         }
 
         public bool Equals(Maybe<T> other)

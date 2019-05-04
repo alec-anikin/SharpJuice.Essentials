@@ -58,6 +58,19 @@ User instance = user.OrElse(anonymousUserInstance);
 User instance = user.OrDefault();  
 ```
 
+#### Match ####
+Match accepts both bind and orElse actions as parameters.
+
+```csharp
+Maybe<Order> order = ...
+
+//Action<T>
+order.Match(o => o.Accept(payment), () => Refund(payment, "Order not found."))
+
+//Func<T, TResult>
+Order instance = order.Match(o => o.AddLineItem(newItem), () => new Order(newItem));
+```
+
 #### Other Methods ####
 Maybe implements ```IEnumerable<T>, IEquatable<Maybe<T>>, IEquatable<T>```
 
@@ -68,6 +81,9 @@ bool hasValue = maybe.Any();
 
 //Single returns value or throws InvalidOperationException
 User instance = maybe.Single();
+
+//TryGet returns flag and value
+bool hasValue = maybe.TryGet(var out value);
 
 //Throw exception when maybe contains value.
 maybe.BindThrow(() => new Exception());

@@ -59,6 +59,29 @@ namespace SharpJuice.Essentials
             return (await task).Single();
         }
 
+        public static async Task Match<T>(this Task<Maybe<T>> task, Action<T> bind, Action orElse)
+        {
+            (await task).Match(bind, orElse);
+        }
+
+        public static async Task<TResult> Match<T, TResult>(this Task<Maybe<T>> task, Func<T, TResult> bind,
+            Func<TResult> orElse)
+        {
+            return (await task).Match(bind, orElse);
+        }
+
+        public static async Task<TResult> Match<T, TResult>(this Task<Maybe<T>> task, Func<T, TResult> bind,
+            TResult orElse)
+        {
+            return (await task).Match(bind, orElse);
+        }
+
+        public static async Task<TResult> Match<T, TResult>(this Task<Maybe<T>> task, Func<T, Task<TResult>> bind,
+            Func<Task<TResult>> orElse)
+        {
+            return await (await task).Match(bind, orElse);
+        }
+
         public static async Task<Maybe<T>> Flat<T>(this Task<Maybe<Maybe<T>>> task)
         {
             return await task;
