@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpJuice.Essentials", "SharpJuice.Essentials\SharpJuice.Essentials.csproj", "{321AAD1B-FAB5-48F5-AE69-E0A3016115F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpJuice.Essentials", "src\SharpJuice.Essentials\SharpJuice.Essentials.csproj", "{321AAD1B-FAB5-48F5-AE69-E0A3016115F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpJuice.Essentials.Tests", "SharpJuice.Essentials.Tests\SharpJuice.Essentials.Tests.csproj", "{3C54ED63-8D66-4DB9-9D1F-061D9B8456A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpJuice.Essentials.Tests", "src\SharpJuice.Essentials.Tests\SharpJuice.Essentials.Tests.csproj", "{3C54ED63-8D66-4DB9-9D1F-061D9B8456A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
