@@ -5,13 +5,13 @@
     <Description>C# Maybe monad</Description>
     <Authors>Alec Anikin</Authors>
     <Product>SharpJuice</Product>
-    <Version>2.2.0</Version>
-    <PackageVersion>2.2.0</PackageVersion>
+    <Version>2.3.0</Version>
+    <PackageVersion>2.3.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/alec-anikin/SharpJuice.Essentials/</PackageProjectUrl>
     <PackageTags>maybe;monad;sharpjuice</PackageTags>
     <RepositoryUrl>https://github.com/alec-anikin/SharpJuice.Essentials/</RepositoryUrl>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>9.0</LangVersion>
 
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -25,10 +25,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
