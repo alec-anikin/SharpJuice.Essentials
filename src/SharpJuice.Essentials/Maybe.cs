@@ -119,17 +119,22 @@ namespace SharpJuice.Essentials
             if (_hasValue != other._hasValue)
                 return false;
 
-            return !_hasValue || _value.Equals(other._value);
+            return !_hasValue || EqualityComparer<T>.Default.Equals(_value, other._value);
         }
 
-        public bool Equals(T other) => _hasValue && _value.Equals(other);
+        public bool Equals(T other) 
+            => _hasValue && EqualityComparer<T>.Default.Equals(_value, other);
+
+        public override string ToString()
+            => _hasValue ? _value.ToString() : string.Empty;
+
+        public string ToString(string defaultValue)
+            => _hasValue ? _value.ToString() : defaultValue;
 
         public static implicit operator Maybe<T>(T value) => new Maybe<T>(value);
 
-        public static implicit operator Maybe<T>(Maybe<Maybe<T>> nested)
-        {
-            return nested._hasValue ? nested._value : new Maybe<T>();
-        }
+        public static implicit operator Maybe<T>(Maybe<Maybe<T>> nested) 
+            => nested._hasValue ? nested._value : new Maybe<T>();
 
         public IEnumerator<T> GetEnumerator()
         {
