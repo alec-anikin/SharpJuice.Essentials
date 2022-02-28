@@ -101,3 +101,7 @@ Maybe<Administrator> admin = maybe.As<Administrator>();
 //Empty string
 Maybe<string> stringValue = " ".ToMaybe(emptyAsNull: true);
 ```
+
+#### Serialization ####
+
+System.Text.Json serialization supported.

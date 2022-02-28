@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using SharpJuice.Essentials.Json;
 
 namespace SharpJuice.Essentials
 {
@@ -9,7 +11,7 @@ namespace SharpJuice.Essentials
     /// Replacement for null. Contains one or zero items.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Serializable]
+    [JsonConverter(typeof(MaybeConverter))]
     public readonly struct Maybe<T> :
         IEnumerable<T>,
         IEquatable<Maybe<T>>,
@@ -122,7 +124,7 @@ namespace SharpJuice.Essentials
             return !_hasValue || EqualityComparer<T>.Default.Equals(_value, other._value);
         }
 
-        public bool Equals(T other) 
+        public bool Equals(T other)
             => _hasValue && EqualityComparer<T>.Default.Equals(_value, other);
 
         public override string ToString()
@@ -133,7 +135,7 @@ namespace SharpJuice.Essentials
 
         public static implicit operator Maybe<T>(T value) => new Maybe<T>(value);
 
-        public static implicit operator Maybe<T>(Maybe<Maybe<T>> nested) 
+        public static implicit operator Maybe<T>(Maybe<Maybe<T>> nested)
             => nested._hasValue ? nested._value : new Maybe<T>();
 
         public IEnumerator<T> GetEnumerator()
