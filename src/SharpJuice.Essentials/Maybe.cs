@@ -127,6 +127,12 @@ namespace SharpJuice.Essentials
         public bool Equals(T other)
             => _hasValue && EqualityComparer<T>.Default.Equals(_value, other);
 
+        public override bool Equals(object obj) 
+            => obj is Maybe<T> other && Equals(other);
+
+        public override int GetHashCode() 
+            => EqualityComparer<T>.Default.GetHashCode(_value);
+
         public override string ToString()
             => _hasValue ? _value.ToString() : string.Empty;
 

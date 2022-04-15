@@ -5,8 +5,8 @@
     <Description>C# Maybe monad</Description>
     <Authors>Alec Anikin</Authors>
     <Product>SharpJuice</Product>
-    <Version>2.5.0</Version>
-    <PackageVersion>2.5.0</PackageVersion>
+    <Version>2.5.1</Version>
+    <PackageVersion>2.5.1</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/alec-anikin/SharpJuice.Essentials/</PackageProjectUrl>
     <PackageTags>maybe;monad;sharpjuice</PackageTags>
