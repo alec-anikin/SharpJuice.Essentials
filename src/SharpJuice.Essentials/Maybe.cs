@@ -60,6 +60,20 @@ namespace SharpJuice.Essentials
                 : new Maybe<TResult>();
         }
 
+        public Maybe<T> Filter(Predicate<T> predicate)
+        {
+            return _hasValue && predicate(_value)
+                ? this
+                : default;
+        }
+
+        public async Task<Maybe<T>> Filter(Func<T, Task<bool>> predicate)
+        {
+            return _hasValue && await predicate(_value)
+                ? this
+                : default;
+        }
+
         public T OrElse(Func<T> func) => _hasValue ? _value : func();
 
         public Task<T> OrElse(Func<Task<T>> func)

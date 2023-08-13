@@ -29,6 +29,20 @@ namespace SharpJuice.Essentials
             return await (await task).Bind(binder);
         }
 
+        public static async Task<Maybe<T>> Filter<T>(
+            this Task<Maybe<T>> task,
+            Predicate<T> predicate)
+        {
+            return (await task).Filter(predicate);
+        }
+
+        public static async Task<Maybe<T>> Filter<T>(
+            this Task<Maybe<T>> task,
+            Func<T, Task<bool>> predicate)
+        {
+            return await (await task).Filter(predicate);
+        }
+
         public static async Task<T> OrElse<T>(this Task<Maybe<T>> task, Func<T> func)
         {
             return (await task).OrElse(func);
